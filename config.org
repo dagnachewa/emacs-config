@@ -314,8 +314,8 @@ for more info).
 ** Personal Information
 It's useful to have some basic personal information
 #+begin_src emacs-lisp
-(setq user-full-name "TEC"
-      user-mail-address "tec@tecosaur.com")
+(setq user-full-name "Dagnachew Argaw"
+      user-mail-address "dagnachewa@gmail.com")
 #+end_src
 Apparently this is used by ~GPG~, and all sorts of other things.
 
@@ -504,27 +504,30 @@ I reckon enabling half the modules Doom provides should do it.
 #+name: doom-completion
 #+begin_src emacs-lisp
 (company                     ; the ultimate code completion backend
- +childframe)                ; ... when your children are better than you
+ +auto
+ +childframe)
 ;;helm                       ; the *other* search engine for love and life
 ;;ido                        ; the other *other* search engine...
 (ivy                         ; a search engine for love and life
+ +fuzzy
+ +childframe
  +icons                      ; ... icons are nice
  +prescient)                 ; ... I know what I want(ed)
 #+end_src
 
 #+name: doom-ui
 #+begin_src emacs-lisp
-;;deft                       ; notational velocity for Emacs
+deft                       ; notational velocity for Emacs
 doom                         ; what makes DOOM look the way it does
 doom-dashboard               ; a nifty splash screen for Emacs
 doom-quit                    ; DOOM quit-message prompts when you quit Emacs
 (emoji +unicode)             ; 🙂
 ;;fill-column                ; a `fill-column' indicator
 hl-todo                      ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
-;;hydra                      ; quick documentation for related commands
+hydra                      ; quick documentation for related commands
 ;;indent-guides              ; highlighted indent columns, notoriously slow
-(ligatures +extra)           ; ligatures and symbols to make your code pretty again
-;;minimap                    ; show a map of the code on the side
+(ligatures +fira +extra)           ; ligatures and symbols to make your code pretty again
+minimap                    ; show a map of the code on the side
 modeline                     ; snazzy, Atom-inspired modeline, plus API
 nav-flash                    ; blink the current line after jumping
 ;;neotree                    ; a project drawer, like NERDTree for vim
@@ -535,7 +538,7 @@ ophints                      ; highlight the region an operation acts on
 ;;(tabs                      ; an tab bar for Emacs
 ;;  +centaur-tabs)           ; ... with prettier tabs
 treemacs                     ; a project drawer, like neotree but cooler
-;;unicode                    ; extended unicode support for various languages
+unicode                    ; extended unicode support for various languages
 vc-gutter                    ; vcs diff in the fringe
 vi-tilde-fringe              ; fringe tildes to mark beyond EOB
 (window-select +numbers)     ; visually switch windows
@@ -586,28 +589,29 @@ grammar                      ; tasing grammar mistake every you make
 #+name: doom-tools
 #+begin_src emacs-lisp
 ansible                      ; a crucible for infrastructure as code
-;;debugger                   ; FIXME stepping through code, to help you add bugs
-;;direnv                     ; be direct about your environment
-docker                       ; port everything to containers
-;;editorconfig               ; let someone else argue about tabs vs spaces
-;;ein                        ; tame Jupyter notebooks with emacs
+debugger                     ; FIXME stepping through code, to help you add bugs
+direnv                     ; be direct about your environment
+docker                     ; port everything to containers
+editorconfig               ; let someone else argue about tabs vs spaces
+ein                        ; tame Jupyter notebooks with emacs
 (eval +overlay)              ; run code, run (also, repls)
 ;;gist                       ; interacting with github gists
 (lookup                      ; helps you navigate your code and documentation
  +dictionary                 ; dictionary/thesaurus is nice
  +docsets)                   ; ...or in Dash docsets locally
-lsp                          ; Language Server Protocol
+(lsp
+ +peek)                    ; Language Server Protocol
 ;;macos                      ; MacOS-specific commands
 (magit                       ; a git porcelain for Emacs
  +forge)                     ; interface with git forges
 make                         ; run make tasks from Emacs
-;;pass                       ; password manager for nerds
+pass                       ; password manager for nerds
 pdf                          ; pdf enhancements
 ;;prodigy                    ; FIXME managing external services & code builders
 rgb                          ; creating color strings
-;;taskrunner                 ; taskrunner for all your projects
-;;terraform                  ; infrastructure as code
-;;tmux                       ; an API for interacting with tmux
+taskrunner                 ; taskrunner for all your projects
+terraform                  ; infrastructure as code
+tmux                       ; an API for interacting with tmux
 upload                       ; map local to remote projects via ssh/ftp
 #+end_src
 
@@ -623,74 +627,77 @@ associated file.
 
 #+name: doom-lang
 #+begin_src emacs-lisp
-;;agda                       ; types of types of types of types...
-;;cc                         ; C/C++/Obj-C madness
-;;clojure                    ; java with a lisp
-;;common-lisp                ; if you've seen one lisp, you've seen them all
-;;coq                        ; proofs-as-programs
-;;crystal                    ; ruby at the speed of c
+agda                       ; types of types of types of types...
+beancount                  ; the accounting system in emacs
+(cc +lsp :variables c-c++-backend 'lsp-ccls)                         ; C/C++/Obj-C madness
+(clojure +lsp)                    ; java with a lisp
+common-lisp                ; if you've seen one lisp, you've seen them all
+coq                        ; proofs-as-programs
+crystal                    ; ruby at the speed of c
 ;;csharp                     ; unity, .NET, and mono shenanigans
 data                         ; config/data formats
 ;;(dart +flutter)            ; paint ui and not much else
-;;elixir                     ; erlang done right
-;;elm                        ; care for a cup of TEA?
+(elixir +lsp)                     ; erlang done right
+(elm +lsp)                        ; care for a cup of TEA?
 emacs-lisp                   ; drown in parentheses
-;;erlang                     ; an elegant language for a more civilized age
+(erlang +lsp)                     ; an elegant language for a more civilized age
 ess                          ; emacs speaks statistics
 ;;faust                      ; dsp, but you get to keep your soul
 ;;fsharp                     ; ML stands for Microsoft's Language
 ;;fstar                      ; (dependent) types and (monadic) effects and Z3
-;;(go +lsp)                  ; the hipster dialect
-;; (haskell +lsp)            ; a language that's lazier than I am
-;;hy                         ; readability of scheme w/ speed of python
-;;idris                      ;
-json                         ; At least it ain't XML
-;;(java +meghanada)          ; the poster child for carpal tunnel syndrome
-(javascript +lsp)            ; all(hope(abandon(ye(who(enter(here))))))
-(julia +lsp)                 ; a better, faster MATLAB
-;;kotlin                     ; a better, slicker Java(Script)
+(go +lsp)                  ; the hipster dialect
+(haskell +dante +ghcide +lsp)             ; a language that's lazier than I am
+hy                         ; readability of scheme w/ speed of python
+idris                      ;
+json                       ; At least it ain't XML
+(java +lsp)                ; the poster child for carpal tunnel syndrome
+(javascript +lsp)          ; all(hope(abandon(ye(who(enter(here))))))
+(julia +lsp)               ; a better, faster MATLAB
+kotlin                     ; a better, slicker Java(Script)
 (latex                       ; writing papers in Emacs has never been so fun
  +latexmk                    ; what else would you use?
  +cdlatex                    ; quick maths symbols
  +fold)                      ; fold the clutter away nicities
 ;;lean                       ; proof that mathematicians need help
 ;;factor                     ; for when scripts are stacked against you
-;;ledger                     ; an accounting system in Emacs
+ledger                     ; an accounting system in Emacs
 lua                          ; one-based indices? one-based indices
 markdown                     ; writing docs for people to ignore
-;;nim                        ; python + lisp at the speed of c
-;;nix                        ; I hereby declare "nix geht mehr!"
-;;ocaml                      ; an objective camel
+nim                        ; python + lisp at the speed of c
+nix                        ; I hereby declare "nix geht mehr!"
+ocaml                      ; an objective camel
 (org                         ; organize your plain life in plain text
+ +brain
  +pretty                     ; yessss my pretties! (nice unicode symbols)
  +dragndrop                  ; drag & drop files/images into org buffers
- ;;+hugo                     ; use Emacs for hugo blogging
- +noter                      ; enhanced PDF notetaking
+ +hugo                     ; use Emacs for hugo blogging
+ +journal
  +jupyter                    ; ipython/jupyter support for babel
+ +noter
  +pandoc                     ; export-with-pandoc support
  +gnuplot                    ; who doesn't like pretty pictures
- ;;+pomodoro                 ; be fruitful with the tomato technique
+ +pomodoro                 ; be fruitful with the tomato technique
  +present                    ; using org-mode for presentations
  +roam)                      ; wander around notes
 ;;perl                       ; write code no one else can comprehend
 ;;php                        ; perl's insecure younger brother
-;;plantuml                   ; diagrams for confusing people more
-;;purescript                 ; javascript, but functional
-(python +lsp +pyright)       ; beautiful is better than ugly
+plantuml                   ; diagrams for confusing people more
+purescript                 ; javascript, but functional
+(python +lsp +pyright +conda +poetry)       ; beautiful is better than ugly
 ;;qt                         ; the 'cutest' gui framework ever
-;;racket                     ; a DSL for DSLs
-;;rest                       ; Emacs as a REST client
-;;rst                        ; ReST in peace
-;;(ruby +rails)              ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
+racket                     ; a DSL for DSLs
+rest                       ; Emacs as a REST client
+rst                        ; ReST in peace
+(ruby +rails)              ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
 (rust +lsp)                  ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
-;;scala                      ; java, but good
+scala                      ; java, but good
 scheme                       ; a fully conniving family of lisps
 sh                           ; she sells {ba,z,fi}sh shells on the C xor
 ;;sml                        ; no, the /other/ ML
 ;;solidity                   ; do you need a blockchain? No.
 ;;swift                      ; who asked for emoji variables?
 ;;terra                      ; Earth and Moon in alignment for performance.
-web                          ; the tubes
+(web +lsp)                          ; the tubes
 yaml                         ; JSON, but readable
 #+end_src
 
@@ -700,14 +707,14 @@ I couldn't resist the Email and Feed modules.
 
 #+name: doom-email
 #+begin_src emacs-lisp
-(:if (executable-find "mu") (mu4e +org +gmail))
+(mu4e +org +gmail)
 ;;notmuch
 ;;(wanderlust +gmail)
 #+end_src
 
 #+name: doom-app
 #+begin_src emacs-lisp
-;;calendar                   ; A dated approach to timetabling
+calendar
 ;;emms                       ; Multimedia in Emacs is music to my ears
 everywhere                   ; *leave* Emacs!? You must be joking.
 irc                          ; how neckbeards socialize
@@ -1370,9 +1377,19 @@ our package manager can't deal with; see [[https://github.com/raxod502/straight.
 (package! builtin-package :recipe (:branch "develop"))
 #+end_src
 ** General packages
+Load Path
+#+begin_src emacs-lisp
+(add-load-path! "lisp")
+#+end_src
 *** Window management
 #+begin_src emacs-lisp
 (package! rotate :pin "4e9ac3ff800880bd9b705794ef0f7c99d72900a6")
+#+end_src
+*** Authoring and publishing
+#+begin_src emacs-lisp
+(package! ox-leanpub)
+(use-package! ox-leanpub
+  :after org)
 #+end_src
 *** Fun
 Sometimes one just wants a little fun.
@@ -1810,6 +1827,8 @@ to make that right again, and this package makes that even easier to do.
 Org-roam is nice by itself, but there are so /extra/ nice packages which integrate
 with it.
 #+begin_src emacs-lisp
+(package! org-roam-bibtex
+  :recipe (:host github :repo "org-roam/org-roam-bibtex"))
 (package! org-roam-server :pin "2122a61e9e9be205355c7e2c1e4b65986d6985a5")
 #+end_src
 #+begin_src emacs-lisp :tangle yes
@@ -2433,7 +2452,8 @@ Let's try to make tramp handle prompts better
 #+begin_src emacs-lisp
 (after! tramp
   (setenv "SHELL" "/bin/bash")
-  (setq tramp-shell-prompt-pattern "\\(?:^\\|\\)[^]#$%>\n]*#?[]#$%>] *\\(\\[[0-9;]*[a-zA-Z] *\\)*")) ;; default + 
+  (setq tramp-shell-prompt-pattern "\\(?:^\\|
+\\)[^]#$%>\n]*#?[]#$%>] *\\(\\[[0-9;]*[a-zA-Z] *\\)*")) ;; default + 
 #+end_src
 *** Troubleshooting
 In case the remote shell is misbehaving, here are some things to try
@@ -2898,7 +2918,7 @@ something through Emacs?
 (use-package! calibredb
   :commands calibredb
   :config
-  (setq calibredb-root-dir "~/Desktop/TEC/Other/Ebooks"
+  (setq calibredb-root-dir "/mnt/goyaves-homes-livres"
         calibredb-db-dir (expand-file-name "metadata.db" calibredb-root-dir))
   (map! :map calibredb-show-mode-map
         :ne "?" #'calibredb-entry-dispatch
@@ -3323,6 +3343,130 @@ Now, some actual emojis to use.
     (":|"   . "neutral")
     (":-|"  . "expressionless")))
 #+end_src
+=erc= is another irc client
+#+begin_src emacs-lisp
+(use-package erc
+    :delight "ε "
+    :commands erc-tls
+    :preface
+    (defun my/erc-browse-last-url ()
+      "Searchs backwards through an ERC buffer, looking for a URL. When a URL is
+       found, it prompts you to open it."
+      (interactive)
+      (save-excursion
+        (let ((ffap-url-regexp "\\(https?://\\)."))
+          (ffap-next-url t t))))
+
+    (defun my/erc-count-users ()
+      "Displays the number of users and ops connected on the current channel."
+      (interactive)
+      (if (get-buffer "irc.libera.chat/6697")
+          (let ((channel (erc-default-target)))
+            (if (and channel (erc-channel-p channel))
+                (let ((hash-table (with-current-buffer (erc-server-buffer)
+                                    erc-server-users))
+                      (users 0)
+                      (ops 0))
+                  (maphash (lambda (k v)
+                             (when (member (current-buffer)
+                                           (erc-server-user-buffers v))
+                               (cl-incf users))
+                             (when (erc-channel-user-op-p k)
+                               (cl-incf ops)))
+                           hash-table)
+                  (message "%d users (%s ops) are online on %s" users ops channel))
+              (user-error "The current buffer is not a channel")))
+        (user-error "You must first be connected on IRC")))
+
+    (defun my/erc-get-ops ()
+      "Displays the names of ops users on the current channel."
+      (interactive)
+      (if (get-buffer "irc.libera.chat:6697")
+          (let ((channel (erc-default-target)))
+            (if (and channel (erc-channel-p channel))
+                (let (ops)
+                  (maphash (lambda (nick cdata)
+                             (if (and (cdr cdata)
+                                      (erc-channel-user-op (cdr cdata)))
+                                 (setq ops (cons nick ops))))
+                           erc-channel-users)
+                  (if ops
+                      (message "The online ops users are: %s"  (mapconcat 'identity ops " "))
+                    (message "There are no ops users online on %s" channel)))
+              (user-error "The current buffer is not a channel")))
+        (user-error "You must first be connected on IRC")))
+
+    (defun my/erc-notify (nickname message)
+      "Displays a notification message for ERC."
+      (let* ((channel (buffer-name))
+             (nick (erc-hl-nicks-trim-irc-nick nickname))
+             (title (if (string-match-p (concat "^" nickname) channel)
+                        nick
+                      (concat nick " (" channel ")")))
+             (msg (s-trim (s-collapse-whitespace message))))
+        (alert (concat nick ": " msg) :title title)))
+
+    (defun my/erc-preprocess (string)
+      "Avoids channel flooding."
+      (setq str (string-trim (replace-regexp-in-string "\n+" " " str))))
+
+    (defun my/erc-reset-track-mode ()
+      "Resets ERC track mode."
+      (interactive)
+      (setq erc-modified-channels-alist nil)
+      (erc-modified-channels-update)
+      (erc-modified-channels-display)
+      (force-mode-line-update))
+
+    (defun my/erc-start-or-switch ()
+      "Connects to ERC, or switch to last active buffer."
+      (interactive)
+      (if (get-buffer "irc.libera.chat:6697")
+          (erc-track-switch-buffer 1)
+        (erc-tls :server "irc.libera.chat" :port 6697 :nick "perrierjouet")))
+    :hook ((ercn-notify . my/erc-notify)
+           (erc-send-pre . my/erc-preprocess))
+    :custom-face
+    (erc-action-face ((t (:foreground "#8fbcbb"))))
+    (erc-error-face ((t (:foreground "#bf616a"))))
+    (erc-input-face ((t (:foreground "#ebcb8b"))))
+    (erc-notice-face ((t (:foreground "#ebcb8b"))))
+    (erc-timestamp-face ((t (:foreground "#a3be8c"))))
+    :custom
+    (erc-autojoin-mode 1)
+    (erc-autojoin-channels-alist '(("#emacs" "#org-mode" "#archlinux" "#archlinux-fr" "##webdev" "#freebsd" "##linux"
+                                    "#nixers_net" "##c" "#c++" "#cplusplus.com" "#postgresql" "#R"
+                                    "#scala" "##lisp" "#lispcafe" "#clojure" "#haskell" "#erlang"
+                                    "##java" "##javascript" "#python" "#go-nuts" "#lobsters"
+                                    "##networking" "#cisco" "#pfsense" "#docker" "#lxcontainers"
+                                    "#zsh" "#git" "#Node.js" "#reddit-sysadmin" "#drools"
+                                    "#jbpm" "#optaplanner")))
+    (erc-autojoin-timing 'ident)
+    (erc-fill-function 'erc-fill-static)
+    (erc-fill-static-center 22)
+    (erc-header-line-format "%n on %t (%m)")
+    (erc-hide-list '("JOIN" "PART" "QUIT"))
+    (erc-join-buffer 'bury)
+    (erc-kill-buffer-on-part t)
+    (erc-kill-queries-on-quit t)
+    (erc-kill-server-buffer-on-quit t)
+    (erc-lurker-hide-list '("JOIN" "PART" "QUIT"))
+    (erc-lurker-threshold-time 43200)
+    (erc-prompt-for-nickserv-password nil)
+    (erc-server-reconnect-attempts 5)
+    (erc-server-reconnect-timeout 3)
+    (erc-track-exclude-types '("JOIN" "MODE" "NICK" "PART" "QUIT"
+                               "324" "329" "332" "333" "353" "477"))
+    :config
+    (add-to-list 'erc-modules 'notifications)
+    (add-to-list 'erc-modules 'spelling)
+    (erc-services-mode 1)
+    (erc-update-modules))
+
+  (use-package erc-join :after erc)
+  (use-package erc-hl-nicks :after erc)
+  (use-package erc-image :after erc)
+#+end_src
 ** Newsfeed
 RSS feeds are still a thing. Why not make use of them with =elfeed=.
 I really like what [[https://github.com/fuxialexander/doom-emacs-private-xfu/tree/master/modules/app/rss][fuxialexander]] has going on, but I don't think I need a custom
@@ -3490,7 +3634,7 @@ module. Let's just try to patch on the main things I like the look of.
             (insert content))
         (insert (propertize "(empty)\n" 'face 'italic)))
       (goto-char (point-min))))
-
+  (setq rmh-elfeed-org-files (list "/www/Dropbox/org/elfeed.org"))
   )
 #+end_src
 *** Functionality enhancements
@@ -4164,7 +4308,7 @@ suggest msmtp to be a better choice. I have seen the following points raised
 + ~msmtp~ is a maintained alternative to ~ssmtp~
 + ~msmtp~ is easier to configure
 
-The config file is [[file:~/.config/msmtp/config][~/.config/msmtp/config]].
+The config file is [[file:~/.msmtprc][~/.msmtprc]]
 
 **** System hackery
 Unfortunately, I seem to have run into a [[https://bugs.archlinux.org/task/44994][bug]] present in my packaged version, so
@@ -4252,6 +4396,56 @@ To account for the increase width of each flag character, and make perform a
 few more visual tweaks, we'll tweak the headers a bit
 #+begin_src emacs-lisp
 (after! mu4e
+  (setq mu4e-use-fancy-chars t)
+  (setq mu4e-account-alist
+        '(("gmail"
+           ;; Under each account, set the account-specific variables you want.
+           (mu4e-sent-messages-behavior delete)
+           (user-mail-address "dagnachewa@gmail.com")
+           (user-full-name "Dagnachew Argaw"))
+          ))
+  (setq mu4e-attachment-dir "/mnt/goyaves-home-data/downloads")
+  (setq mu4e-maildir "/mnt/goyaves-home-data/maildir")
+  (setq mu4e-trash-folder "/Trash")
+  (setq mu4e-sent-folder "/Sent")
+  (setq mu4e-drafts-folder "/Drafts")
+  (setq mu4e-get-mail-command "mbsync -Va")
+  ;;(mu4e-html2text-command "iconv -c -t utf-8 | pandoc -f html -t plain")
+  (setq mu4e-html2text-command "w3m -T text/html")
+  (setq mu4e-update-interval 300)
+  ;;completion
+  (setq mu4e-completing-read-function 'ivy-completing-read)
+  ;;mu4e-headers
+  (setq mu4e-headers-has-child-prefix '("+" . "")
+        mu4e-headers-empty-parent-prefix '("-" . "")
+        mu4e-headers-first-child-prefix '("-" . "")
+        mu4e-headers-duplicate-prefix '("-" . "")
+        mu4e-headers-default-prefix '("-" . "")
+        mu4e-headers-draft-mark '("-" . "")
+        mu4e-headers-flagged-mark '("-" . "")
+        mu4e-headers-new-mark '("-" . "")
+        mu4e-headers-passed-mark '("-" . "")
+        mu4e-headers-replied-mark '("-" . "")
+        mu4e-headers-trashed-mark '("-" . "")
+        mu4e-headers-attach-mark '("-" . "")
+        mu4e-headers-encrypted-mark '("-" . "")
+        mu4e-headers-signed-mark '("-" . "")
+        mu4e-headers-unread-mark '("-" . "")
+        mu4e-headers-first-child-prefix '("\\" . "")
+        mu4e-headers-duplicate-prefix '("=" . "")
+        mu4e-headers-default-prefix '("|" . "")
+        mu4e-headers-draft-mark '("D" . "")
+        mu4e-headers-flagged-mark '("F" . "")
+        mu4e-headers-new-mark '("N" . "")
+        mu4e-headers-passed-mark '("P" . "")
+        mu4e-headers-replied-mark '("R" . "")
+        mu4e-headers-seen-mark '("S" . "")
+        mu4e-headers-trashed-mark '("T" . "")
+        mu4e-headers-attach-mark '("a" . "")
+        mu4e-headers-encrypted-mark '("x" . "")
+        mu4e-headers-signed-mark '("s" . "")
+        mu4e-headers-unread-mark '("u" . "")
+  )
   (setq mu4e-headers-fields
         '((:flags . 6)
           (:account-stripe . 2)
@@ -4265,6 +4459,27 @@ few more visual tweaks, we'll tweak the headers a bit
         mu4e-headers-time-format "⧖ %H:%M"
         mu4e-headers-results-limit 1000
         mu4e-index-cleanup t)
+
+  ;; setup some handy shortcuts
+  (setq mu4e-maildir-shortcuts
+   '(("/gmail/INBOX" . ?i)
+     ("/gmail/Drafts" . ?D)
+     ("/gmail/Sent" . ?s)
+     ("/gmail/Trash" . ?T)))
+
+  ;; mu4e thread folding
+  (require 'mu4e-thread-folding)
+
+  (add-to-list 'mu4e-header-info-custom
+             '(:empty . (:name "Empty"
+                         :shortname ""
+                         :function (lambda (msg) "  "))))
+  (setq mu4e-headers-fields '((:empty         .    2)
+                            (:human-date    .   12)
+                            (:flags         .    6)
+                            (:mailing-list  .   10)
+                            (:from          .   22)
+                            (:subject       .   nil)))
 
   (add-to-list 'mu4e-bookmarks
                '(:name "Yesterday's messages" :query "date:2d..1d" :key ?y) t)
@@ -4287,6 +4502,22 @@ We'll also use a nicer alert icon
 Let's send emails too.
 #+begin_src emacs-lisp
 (after! mu4e
+  (setq
+   send-mail-function 'smtpmail-send-it
+   message-send-mail-function 'smtpmail-send-it
+   user-mail-address "dagnachewa@gmail.com"
+   user-full-name "dagnachew argaw"
+   smtpmail-starttls-credentials '(("smtp.gmail.com" "587" nil nil))
+   smtpmail-auth-credentials (expand-file-name "~/.authinfo.gpg")
+   smtpmail-default-smtp-server "smtp.gmail.com"
+   smtpmail-smtp-server "smtp.gmail.com"
+   smtpmail-smtp-service 587
+   smtpmail-debug-info t
+   starttls-extra-arguments nil
+   starttls-gnutls-program "/usr/bin/gnutls-cli"
+   starttls-extra-arguments nil
+   starttls-use-gnutls t
+   )
   (setq sendmail-program "/usr/bin/msmtp"
         send-mail-function #'smtpmail-send-it
         message-sendmail-f-is-evil t
@@ -4567,13 +4798,14 @@ Entries of the form (subject . id)."
 [[xkcd:1319]]
 **** Tweaking defaults
 #+begin_src emacs-lisp
-(setq org-directory "~/.org"                      ; let's put files here
+(setq org-directory "/www/Dropbox/Org"                      ; let's put files here
       org-use-property-inheritance t              ; it's convenient to have properties inherited
       org-log-done 'time                          ; having the time a item is done sounds convenient
       org-list-allow-alphabetical t               ; have a. A. a) A) list bullets
       org-export-in-background t                  ; run export processes in external emacs process
       org-catch-invisible-edits 'smart            ; try not to accidently do weird stuff in invisible regions
-      org-export-with-sub-superscripts '{})       ; don't treat lone _ / ^ as sub/superscripts, require _{} / ^{}
+      org-export-with-sub-superscripts '{}        ; don't treat lone _ / ^ as sub/superscripts, require _{} / ^{}
+      org-re-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js")
 #+end_src
 I also like the src_elisp{:comments} header-argument, so let's make that a
 default.
@@ -5157,14 +5389,26 @@ no modeline.
 I'll just set this to be within =Organisation= folder for now, in the future it
 could be worth seeing if I could hook this up to a [[https://nextcloud.com/][Nextcloud]] instance.
 #+begin_src emacs-lisp :noweb-ref none :tangle yes
-(setq org-roam-directory "~/Desktop/TEC/Organisation/Roam/")
+
+(setq org-roam-directory "/www/Dropbox/Org/roam/")
+
 #+end_src
 
 That said, if the directory doesn't exist we likely don't want to be using roam.
 Since we don't want to trigger errors (which will happen as soon as roam tries
 to initialise), let's not load roam.
-#+begin_src emacs-lisp :noweb-ref none :tangle (if (file-exists-p "~/Desktop/TEC/Organisation/Roam/") "no" "packages.el")
+#+begin_src emacs-lisp :noweb-ref none :tangle (if (file-exists-p "/www/Dropbox/Org/roam/") "no" "packages.el")
 (package! org-roam :disable t)
+#+end_src
+md-roam
+#+begin_src emacs-lisp :tangle yes
+(add-to-list 'load-path "~/.config/doom/lisp/md-roam/")
+(require 'md-roam) ;this must be before org-roam
+
+(setq md-roam-file-extension-single "md")
+  ;set your markdown extension
+  ;you can omit this if md, which is the default.
+(setq org-roam-title-sources '((mdtitle title mdheadline headline) (mdalias alias)))
 #+end_src
 ***** Registering roam protocol
 The recommended method of registering a protocol is by registering a desktop
@@ -5765,6 +6009,45 @@ It likely misses some edge cases, but should mostly work.
           (setq count (1+ count))))
       (message "Replaced %d occurances" count))))
 #+end_src
+**** Publishing
+#+begin_src emacs-lisp
+(require 'ox-publish)
+(after! org (setq org-publish-project-alist
+                  '(("attachments"
+                     :base-directory "/www/Dropbox/Org/"
+                     :recursive t
+                     :base-extension "jpg\\|jpeg\\|png\\|pdf\\|css"
+                     :publishing-directory "~/publish_html"
+                     :publishing-function org-publish-attachment)
+                    ("Markdown-to-Orgmode"
+                     :base-directory "/www/Dropbox/Org/notes/"
+                     :publishing-directory "/www/Dropbox/Org/www/"
+                     :base-extension "md"
+                     :recursive t
+                     :publishing-function org-md-publish-to-org)
+                    ("notes"
+                     :base-directory "/www/Dropbox/Org/notes/"
+                     :publishing-directory "/www/Dropbox/Org/www/"
+                     :section-numbers nil
+                     :base-extension "org"
+                     :with-properties nil
+                     :with-drawers (not "LOGBOOK")
+                     :with-timestamps active
+                     :recursive t
+                     :exclude "journal/.*"
+                     :auto-sitemap t
+                     :sitemap-filename "index.html"
+                     :publishing-function org-html-publish-to-html
+                     :html-head "<link rel=\"stylesheet\" href=\"https://raw.githack.com/nmartin84/raw-files/master/htmlpro.css\" type=\"text/css\"/>"
+;                     :html-head "<link rel=\"stylesheet\" href=\"https://codepen.io/nmartin84/pen/RwPzMPe.css\" type=\"text/css\"/>"
+;                     :html-head-extra "<style type=text/css>body{ max-width:80%;  }</style>"
+                     :html-link-up "../"
+                     :with-email t
+                     :html-link-up "../../index.html"
+                     :auto-preamble t
+                     :with-toc t)
+                    ("myprojectweb" :components("attachments" "notes" "ROAM")))))
+#+end_src
 **** Extra links
 ***** xkcd
 Because xkcd is cool, let's make it as easy and fun as possible to insert them.
@@ -5824,9 +6107,9 @@ First, we set up all the necessarily 'utility' functions.
     "Name of the mpris player, used in the form org.gnome.MPRIS.")
   (defvar org-music-track-search-method 'beets
     "Method to find the track file from the link.")
-  (defvar org-music-beets-db "~/Music/library.db"
+  (defvar org-music-beets-db "~/.config/mpd/library.db"
     "Location of the beets DB, for when using beets as the `org-music-track-search-method'")
-  (defvar org-music-folder "~/Music/"
+  (defvar org-music-folder "/mnt/goyaves-home-music/"
     "Location of your music folder, for when using file as the `org-music-track-search-method'")
   (defvar org-music-recognised-extensions '("flac" "mp4" "m4a" "aiff" "wav" "ogg" "aiff")
     "When searching for files in `org-music-track-search-method', recognise these extensions as audio files.")
@@ -10120,3 +10403,45 @@ Of course, there's an Emacs mode for this.
         :n "TAB" #'beancount-align-to-previous-number
         :i "RET" (cmd! (newline-and-indent) (beancount-align-to-previous-number))))
 #+end_src
+** Sql
+#+begin_src emacs-lisp
+(setq sql-connection-alist
+        '((server1 (sql-product 'postgres)
+                   (sql-port 5432)
+                   (sql-server "localhost")
+                   (sql-user "perrierjouet")
+                   (sql-database "postgres"))))
+
+(defun my-sql-connect (product connection)
+    (require my-password "~/.config/doom/lisp/postgresql-password.el.gpg")
+
+    (let ((connection-info (assoc connection sql-connection-alist))
+          (sql-password (car (last (assoc connection my-sql-password)))))
+      (delete sql-password connection-info)
+      (nconc connection-info `((sql-password ,sql-password)))
+      (setq sql-connection-alist (assq-delete-all connection sql-connection-alist))
+      (add-to-list 'sql-connection-alist connection-info))
+
+    (setq sql-product product)
+    (sql-connect connection))
+
+  (add-hook 'sql-interactive-mode-hook
+            (lambda ()
+              (toggle-truncate-lines t)))
+#+end_src
+** Hugo
+#+begin_src emacs-lisp
+(use-package easy-hugo
+ :init
+ (setq easy-hugo-basedir "/www/Dropbox/Org/www/")
+ (setq easy-hugo-url "https://dagnachewa@github.io")
+ (setq easy-hugo-sshdomain "blogdomain")
+ (setq easy-hugo-root "www/Dropbox/Org/www/")
+ (setq easy-hugo-previewtime "300")
+ :bind ("C-c C-e" . easy-hugo))
+
+(use-package ox-hugo
+  :after ox)
+#+end_src
+
+
